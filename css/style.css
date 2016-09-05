@@ -1,9 +1,19 @@
 header {
     margin-bottom: 2rem;
 }
-html, body, section {
-	height: 98%;
+html, body {
+	height: 100%;
 }
+section {
+	height: 90%;
+}
+
+@media (max-width: 768px) {
+	section {
+		height: auto;
+	}
+}
+
 header, footer {
     background-color: #f8f8f8;
 }
