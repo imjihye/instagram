@@ -12,7 +12,7 @@ var Content = React.createClass({
                 result.data.map(function(data){
                     tags = tags.concat(data.tags);
                 });
-                this.setState({tags: tags});
+                this.setState({tags: tags.reduce(function(a,b){if(a.indexOf(b)<0)a.push(b);return a;},[])});
                 this.loadData();
             }.bind(this),
             error:function(xhr, status, err){
@@ -54,7 +54,10 @@ var Content = React.createClass({
         return (
             <div className="content">
                 <Title> 인스타그램에서 태그로 **사진** 찾기!</Title>
-                <SearchResult text={this.state.text} tags={this.state.tags} />
+                <div className="search-result">
+                    My tags : <MyTags onSubmit={this.handlerSubmit} text={this.state.text} tags={this.state.tags} />
+                    Search: <SearchResult text={this.state.text} />
+                </div>
                 <SearchForm onSubmit={this.handlerSubmit} />
                 <ImageList data={this.state.data}/>
             </div>
@@ -75,23 +78,30 @@ var Title = React.createClass({
     }
 });
 
-var SearchResult = React.createClass({
-    rawMarkup: function(tagNode){
-        if(tagNode.length === 0) return;
-        var md = new Remarkable()
-        var rawMarkup = md.render(tagNode);
-        return ({__html: rawMarkup});
+var MyTags = React.createClass({
+    handlerClick: function(e){
+        this.props.onSubmit({text: ReactDOM.findDOMNode(e.target).innerText});
     },
     render: function(){
+        var handlerClick = this.handlerClick;
         var text = this.props.text;
-        var tagNode = this.props.tags.map(function(data){
-            return (text === data) ? '**'+data+'**' : data;
+        var tagNode = this.props.tags.map(function(data, index){
+            var tag = (text === data) ? <strong>{data}</strong> : data;
+            return <li className="list-inline-item" key={index} onClick={handlerClick}>{tag}</li>
         });
         return (
-            <div className="search-result">
-                My tags : <div className="my-tags" dangerouslySetInnerHTML={this.rawMarkup(tagNode.join(', '))} />
-                <p>Search: <mark>{text}</mark></p>
-            </div>
+            <ul className="list-inline">
+                {tagNode}
+            </ul>
+        );
+    }
+});
+
+var SearchResult = React.createClass({
+    render: function(){
+        var text = this.props.text;
+        return (
+            <mark>{text}</mark>
         );
     }
 });

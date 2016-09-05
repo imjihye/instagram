@@ -1,7 +1,9 @@
 header {
     margin-bottom: 2rem;
 }
-
+html, body, section {
+	height: 98%;
+}
 header, footer {
     background-color: #f8f8f8;
 }
@@ -9,8 +11,6 @@ header, footer {
 footer {
     text-align: center;
     padding: 10px;
-    position: absolute;
-    bottom: 0;
     width: 100%;
 }
 
