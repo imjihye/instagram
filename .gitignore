@@ -1,5 +1,4 @@
-bower_components/
-node_modules/
-scripts/build/
-images/build/
-css/build/
+npm-debug.log
+*.map
+# node_modules/
+# bundle.js
