@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf build dist/bundle.js",
     "build": "webpack --progress",
-    "start": "npm run clean && npm run build && cd dist && python -m http.server 8123"
+    "start": "npm run clean && npm run build && cd dist && python -m http.server 8001"
   },
   "repository": {
     "type": "git",
